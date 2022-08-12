@@ -1,0 +1,10 @@
+PIL == 9.2.0
+cv2 == 4.6.0
+keras == 2.6.0
+matplotlib == 3.5.3
+numpy == 1.22.4
+pandas == 1.4.3
+session_info == 1.0.0
+skimage == 0.19.3
+sklearn == 1.1.2
+tensorflow == 2.6.0

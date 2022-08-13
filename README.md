@@ -28,7 +28,7 @@ fullres_model.h5 contains trained original model + upscaling to original.
 
 ## Results
 | Architecture | binary_accuracy | Input & Mask Resolution | Epochs |
-| ------ | ------ | ------ | ------ | ------ |
+| ------ | ------ | ------ | ------ |
 | Unet | 0.958 | (256x256)  | 8 |
 
  Example 1:

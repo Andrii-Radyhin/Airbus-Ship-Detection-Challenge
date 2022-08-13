@@ -31,17 +31,17 @@ fullres_model.h5 contains trained original model + upscaling to original.
 | ------ | ------ | ------ | ------ |
 | Unet | 0.958 | (256x256)  | 8 |
 
- Example 1:
- ![alt text](/images/pred1.png)
+Example 1:
+ ![alt text](images/pred1.PNG)
  
- Example 2: 
- ![alt text](/images/pred2.png)
+Example 2: 
+ ![alt text](images/pred2.PNG)
  
- Example 3: 
- ![alt text](/images/pred3.png)
+Example 3: 
+ ![alt text](images/pred3.PNG)
  
- Example 4: 
- ![alt text](/images/pred4.png)
+Example 4: 
+ ![alt text](images/pred4.PNG)
  
  ## Installation
 

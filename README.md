@@ -27,9 +27,9 @@ First, let's identify the main architecture:
 fullres_model.h5 contains trained original model + upscaling to original.
 
 ## Results
-| Architecture | binary_accuracy | dice_score | Input & Mask Resolution | Epochs |
+| Architecture | binary_accuracy | Input & Mask Resolution | Epochs |
 | ------ | ------ | ------ | ------ | ------ |
-| Unet | 0.958 |  0.35  | (256x256)  | 8 |
+| Unet | 0.958 | (256x256)  | 8 |
 
  Example 1:
  ![alt text](/images/pred1.png)

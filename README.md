@@ -31,8 +31,29 @@ fullres_model.h5 contains trained original model + upscaling to original.
 | ------ | ------ | ------ | ------ | ------ |
 | Unet | 0.958 |  0.35  | (256x256)  | 8 |
 
- Examples:
+ Example 1:
+ ![alt text](/images/pred1.png)
  
+ Example 2: 
+ ![alt text](/images/pred2.png)
+ 
+ Example 3: 
+ ![alt text](/images/pred3.png)
+ 
+ Example 4: 
+ ![alt text](/images/pred4.png)
+ 
+ ## Installation
 
+```sh
+!pip install --user numpy
+!pip install pandas
+!python -m pip install -U matplotlib
+!python -m pip install -U scikit-image
+!pip install -U scikit-learn
+!pip install keras
+!pip install tensorflow
+```
 
+Or you can also use requerements.txt.
 

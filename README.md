@@ -148,7 +148,18 @@ masks.head()
  print('Max of ships : ',unique_img_ids['ships'].max())
  print('Avg of ships : ',unique_img_ids['ships'].mean())
 ```
+ ![alt text](images/eda/visualization_unbalanced.PNG)
+ 
+ 5. To deal with, we will extract 4000 or less samples per each class (0-15 ships).
+ ```sh
+ SAMPLES_PER_GROUP = 4000
+ balanced_train_df = unique_img_ids.groupby('ships').apply(lambda x: x.sample(SAMPLES_PER_GROUP) if len(x) > SAMPLES_PER_GROUP else x)
+ balanced_train_df['ships'].hist(bins=balanced_train_df['ships'].max()+1)
+ print(balanced_train_df.shape[0], 'masks')
+ ```
+![alt text](images/eda/balanced_data.PNG)
 
+6) At this moment we are ready to split our data for validation and train. You can check next steps in train.ipynb, there is no more EDA there.
 
 
 First, let's identify the main architecture:

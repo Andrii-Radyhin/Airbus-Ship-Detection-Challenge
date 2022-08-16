@@ -48,7 +48,7 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
      ├── fullres_model.h5
      └── seg_model_weights.best.hdf5
 </pre>
-
+   ### Files description:
      a. utils/losses.py file contains all losses (also custom metrics) that be used for this task.
        I prefer dice_p_bce for this task according to the results, but you can try any other. 
   
@@ -163,7 +163,7 @@ masks.head()
 6) At this moment we are ready to split our data for validation and train. You can check next steps in train.ipynb, there is no more EDA there.
 
 
-First, let's identify the main architecture:
+## Architecture:
 
  - Architecture: UNet
  - Loss function: DiceBCELoss, IoU
@@ -171,8 +171,6 @@ First, let's identify the main architecture:
  - learning scheduler: ReduceLROnPlateau(factor=0.5, patience=3)
  
  ## General thoughts
- 
- 
  
  I've tried DiceBCELoss and DiceLoss, IoU as loss.
  The best results have been obtained with DiceBCELoss in this case.

@@ -1,11 +1,27 @@
 # Airbus-Ship-Detection-Challenge
 
 Abstract: this repo includes a pipeline using tf.keras for training UNet for the problem of ships detection.
-Moreover, weights and for the trained model are provided.
+Moreover, weights and for the trained model are provided. I will use notebooks/train.ipynb as main file in EDA below, all images from output train.ipynb.
 
 **Important:** balanced dataset (dataset created during analysis) includes 4000 images per each class (0-15 ships) because original dataset contains ~80% images with no ships. Also dataset was downscaled to 256x256, with original resolution the metrics might be better.
 
-## Plan of research
+## Plan of research & EDA
+First, let's deal with the dataset:
+
+1. Important to notice that we have dataset in run-length encoding format, utils/utils.py contains encoders/decoders which were based on 
+ **Link to Kaggle Notebook:** [tap here](https://www.kaggle.com/paulorzp/run-length-encode-and-decode).
+ So, let's use it:
+ a. We need to create a base dir (in my case it's named 'airbus-ship-detection'). Then put there two subdirs 'train_v2' and 'test_v2'
+ b. Next download dataset from kaggle: [tap here](https://www.kaggle.com/competitions/airbus-ship-detection/data). And unzip it in that two subfolders according to their names.
+ c. Now in base dir must be something like this:
+ <pre>
+ ├── train_v2
+ ├── test_v2
+ </pre>
+2. 
+
+
+
 
 First, let's identify the main architecture:
 
@@ -16,8 +32,7 @@ First, let's identify the main architecture:
  
  ## General thoughts
  
- Important to notice that we have dataset in run-length encoding format, utils/utils.py contains encoders/decoders which were based on 
- **Link to Kaggle Notebook:** [tap here](https://www.kaggle.com/paulorzp/run-length-encode-and-decode).
+ 
  
  I've tried DiceBCELoss and DiceLoss, IoU as loss.
  The best results have been obtained with DiceBCELoss in this case.

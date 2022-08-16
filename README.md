@@ -29,7 +29,7 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
 
    **It's important to say that train.ipynb or test.ipynb are independed notebooks (need only datasets).**
    
-   I will explain next steps for non jupyter users, for jupyter users this step is only to add files from dir 'notebooks'.
+   I will explain next steps for non jupyter users, for jupyter users this step is only to add files from folder 'notebooks'.
 
    New and **final directory tree** should be like this:
 <pre>

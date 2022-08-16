@@ -68,24 +68,3 @@ def masks_as_color(in_mask_list):
         if isinstance(mask, str):
             all_masks[:,:] += scale(i) * rle_decode(mask)
     return all_masks
-
-def showImage(image_name):
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize = (16, 5))
-    rle_0 = masks.query('ImageId=="'+image_name+'"')['EncodedPixels']
-    img_0 = masks_as_image(rle_0)
-    ax1.imshow(img_0)
-    ax1.set_title('Mask as image')
-    rle_1 = multi_rle_encode(img_0)
-    img_1 = masks_as_image(rle_1)
-    ax2.imshow(img_1)
-    ax2.set_title('Re-encoded')
-    img_c = masks_as_color(rle_0)
-    ax3.imshow(img_c)
-    ax3.set_title('Masks in colors')
-    img_c = masks_as_color(rle_1)
-    ax4.imshow(img_c)
-    ax4.set_title('Re-encoded in colors')
-    print('Check Decoding->Encoding',
-          'RLE_0:', len(rle_0), '->',
-          'RLE_1:', len(rle_1))
-    print(np.sum(img_0 - img_1), 'error')

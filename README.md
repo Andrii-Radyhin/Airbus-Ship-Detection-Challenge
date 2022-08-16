@@ -11,7 +11,7 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
 1. Important to notice that we have dataset in run-length encoding format, utils/utils.py contains encoders/decoders which were based on 
  **Link to Kaggle Notebook:** [tap here](https://www.kaggle.com/paulorzp/run-length-encode-and-decode).
  
-   a. We need to create a base dir (in my case it's named 'airbus-ship-detection'). Then put there two subdirs 'train_v2' and 'test_v2'.
+   a. We need to create a base directory (in my case it's named 'airbus-ship-detection'). Then put there two subfolders 'train_v2' and 'test_v2'.
  
    b. Next download dataset from kaggle: [tap here](https://www.kaggle.com/competitions/airbus-ship-detection/data). And unzip it in that two subfolders according to their names.
  

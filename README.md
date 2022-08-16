@@ -76,7 +76,7 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
 !pip install tensorflow
 ```
 
-Or you can also use requerements.txt.
+Or you can also use requierements.txt.
 
 ### EDA 
 EDA is also done in train.ipynb. This is EDA + how to start with this project.

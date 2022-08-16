@@ -2,6 +2,7 @@
 
 Abstract: this repo includes a pipeline using tf.keras for training UNet for the problem of ships detection.
 Moreover, weights and for the trained model are provided. **I will use notebooks/train.ipynb as main file in EDA below, all images from output train.ipynb.**
+Also notebook is better to understand, cause it's sectioned and named.
 
 **Important:** balanced dataset (dataset created during analysis) includes 4000 images per each class (0-15 ships) because original dataset contains ~80% images with no ships. Also dataset was downscaled to 256x256, with original resolution the metrics might be better.
 

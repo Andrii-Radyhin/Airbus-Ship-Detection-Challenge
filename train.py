@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from skimage.io import imread
 from skimage.morphology import binary_opening, disk, label
 from PIL import Image
-from utils import multi_rle_encode, rle_encode, rle_decode, masks_as_image, masks_as_color, showImage
+from utils import utils, losses
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras import models, layers
@@ -18,18 +18,10 @@ BASE_DIR = 'airbus-ship-detection'
 TRAIN_DIR = BASE_DIR + '/train_v2/'
 TEST_DIR = BASE_DIR + '/test_v2/'
 
-
 train = os.listdir(TRAIN_DIR)
 test = os.listdir(TEST_DIR)
 
-print(f"Train files: {len(train)}. ---> {train[:3]}")
-print(f"Test files :  {len(test)}. ---> {test[:3]}")
-
-Image.open(TRAIN_DIR+train[0])
-
 masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
-not_empty = pd.notna(masks.EncodedPixels)
-
 masks['ships'] = masks['EncodedPixels'].map(lambda c_row: 1 if isinstance(c_row, str) else 0)
 unique_img_ids = masks.groupby('ImageId').agg({'ships': 'sum'}).reset_index()
 unique_img_ids['has_ship'] = unique_img_ids['ships'].map(lambda x: 1.0 if x>0 else 0.0)

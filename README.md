@@ -121,7 +121,7 @@ Train files: 192556. ---> ['00003e153.jpg', '0001124c7.jpg', '000155de5.jpg']
 Test files :  15606. ---> ['00002bd58.jpg', '00015efb6.jpg', '00023d5fc.jpg']
 ```
 
-     So at this moment we are ready to deal with dataset.
+  So at this moment we are ready to deal with dataset.
 
 3. train_ship_segmentations_v2.csv contains id and encoded pixels, some of them have no encoded pixels, it's mean that there is no ships on the picture.
 

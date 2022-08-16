@@ -7,11 +7,9 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
 
 ## Guide & EDA
 ### Guide
-First, let's deal with the dataset:
 
 1. Important to notice that we have dataset in run-length encoding format, utils/utils.py contains encoders/decoders which were based on 
  **Link to Kaggle Notebook:** [tap here](https://www.kaggle.com/paulorzp/run-length-encode-and-decode).
- So, let's use it:
  
    a. We need to create a base dir (in my case it's named 'airbus-ship-detection'). Then put there two subdirs 'train_v2' and 'test_v2'.
  
@@ -79,6 +77,68 @@ First, let's deal with the dataset:
 ```
 
 Or you can also use requerements.txt.
+
+### EDA
+
+1. Imports:
+```sh
+import config
+import numpy as np
+import pandas as pd
+import os
+import matplotlib.pyplot as plt
+from skimage.io import imread
+from skimage.morphology import binary_opening, disk, label
+from PIL import Image
+from utils import multi_rle_encode, rle_encode, rle_decode, masks_as_image, masks_as_color, showImage
+from sklearn.model_selection import train_test_split
+from keras.preprocessing.image import ImageDataGenerator
+from keras import models, layers
+from generators import make_image_gen, create_aug_gen
+from losses import dice_p_bce, dice_coef
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
+```
+
+Code above should show no problems, if it shows step back to the guide.
+
+2. Now, let's check pathes:
+```sh
+BASE_DIR = 'airbus-ship-detection'
+TRAIN_DIR = BASE_DIR + '/train_v2/'
+TEST_DIR = BASE_DIR + '/test_v2/'
+```
+
+```sh
+train = os.listdir(TRAIN_DIR)
+test = os.listdir(TEST_DIR)
+
+print(f"Train files: {len(train)}. ---> {train[:3]}")
+print(f"Test files :  {len(test)}. ---> {test[:3]}")
+```
+  if everything is alright it shows:
+```sh
+Train files: 192556. ---> ['00003e153.jpg', '0001124c7.jpg', '000155de5.jpg']
+Test files :  15606. ---> ['00002bd58.jpg', '00015efb6.jpg', '00023d5fc.jpg']
+```
+
+  So at this moment we are ready to deal with dataset.
+
+3. train_ship_segmentations_v2.csv contains id and encoded pixels, some of them have no encoded pixels, it's mean that there is no ships on the picture. I will call this type of images 'empty'. Also on the same picture can be more than one ship, so we will use a masks as one image from utils.py.
+
+First let's create a database via pandas:
+```sh
+masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
+not_empty = pd.notna(masks.EncodedPixels)
+print(not_empty.sum(), 'masks in', masks[not_empty].ImageId.nunique(), 'images')
+print((~not_empty).sum(), 'empty images in', masks.ImageId.nunique(), 'total images')
+masks.head()
+```
+ ![alt text](images/eda/main_database.PNG)
+
+
+
+
+
 
 First, let's identify the main architecture:
 

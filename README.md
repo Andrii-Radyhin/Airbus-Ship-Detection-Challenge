@@ -140,6 +140,7 @@ masks.head()
    150000 empty images in 192556 total images. Not really balanced dataset.
 
 4. By reason of not balanced dataset, first of all, we need to create a new database with amount of ships for each picture and binary counter (column has_ship).
+ 
 ![alt text](images/eda/processed_database.PNG)
 
  let's also visualize to see if it's really unbalanced:

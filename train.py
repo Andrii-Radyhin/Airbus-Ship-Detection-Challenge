@@ -1,4 +1,4 @@
-import config
+from config import *
 import numpy as np
 import pandas as pd
 import os
@@ -14,10 +14,10 @@ from generators import make_image_gen, create_aug_gen
 from losses import dice_p_bce, dice_coef
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
 
-
 BASE_DIR = 'airbus-ship-detection'
 TRAIN_DIR = BASE_DIR + '/train_v2/'
 TEST_DIR = BASE_DIR + '/test_v2/'
+
 
 train = os.listdir(TRAIN_DIR)
 test = os.listdir(TEST_DIR)
@@ -29,25 +29,16 @@ Image.open(TRAIN_DIR+train[0])
 
 masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
 not_empty = pd.notna(masks.EncodedPixels)
-print(not_empty.sum(), 'masks in', masks[not_empty].ImageId.nunique(), 'images')
-print((~not_empty).sum(), 'empty images in', masks.ImageId.nunique(), 'total images')
-masks.head()
 
 masks['ships'] = masks['EncodedPixels'].map(lambda c_row: 1 if isinstance(c_row, str) else 0)
 unique_img_ids = masks.groupby('ImageId').agg({'ships': 'sum'}).reset_index()
 unique_img_ids['has_ship'] = unique_img_ids['ships'].map(lambda x: 1.0 if x>0 else 0.0)
 masks.drop(['ships'], axis=1, inplace=True)
-print(unique_img_ids.loc[unique_img_ids.ships>=2].head())
-showImage(unique_img_ids.loc[unique_img_ids.ships>=2].iloc[0].ImageId)
 
-unique_img_ids['ships'].hist(bins=unique_img_ids['ships'].max())
-print('Max of ships : ',unique_img_ids['ships'].max())
-print('Avg of ships : ',unique_img_ids['ships'].mean())
 
 SAMPLES_PER_GROUP = 4000
 balanced_train_df = unique_img_ids.groupby('ships').apply(lambda x: x.sample(SAMPLES_PER_GROUP) if len(x) > SAMPLES_PER_GROUP else x)
-balanced_train_df['ships'].hist(bins=balanced_train_df['ships'].max()+1)
-print(balanced_train_df.shape[0], 'masks')
+
 
 train_ids, valid_ids = train_test_split(balanced_train_df, 
                  test_size = 0.2, 
@@ -61,11 +52,7 @@ print(valid_df.shape[0], 'validation masks')
                 
 train_gen = make_image_gen(train_df)
 train_x, train_y = next(train_gen)
-print('x', train_x.shape, train_x.min(), train_x.max())
-print('y', train_y.shape, train_y.min(), train_y.max())
-
 valid_x, valid_y = next(make_image_gen(valid_df, VALID_IMG_COUNT))
-print(valid_x.shape, valid_y.shape)
 
 dg_args = dict(featurewise_center = False, 
                   samplewise_center = False,
@@ -78,7 +65,8 @@ dg_args = dict(featurewise_center = False,
                   vertical_flip = True,
                   fill_mode = 'reflect',
                    data_format = 'channels_last')
-# brightness can be problematic since it seems to change the labels differently from the images 
+
+
 if AUGMENT_BRIGHTNESS:
     dg_args[' brightness_range'] = [0.5, 1.5]
 image_gen = ImageDataGenerator(**dg_args)
@@ -86,7 +74,8 @@ image_gen = ImageDataGenerator(**dg_args)
 if AUGMENT_BRIGHTNESS:
     dg_args.pop('brightness_range')
 label_gen = ImageDataGenerator(**dg_args)
-        
+ 
+  
 cur_gen = create_aug_gen(train_gen)
 t_x, t_y = next(cur_gen)
 print('x', t_x.shape, t_x.dtype, t_x.min(), t_x.max())
@@ -178,6 +167,8 @@ early = EarlyStopping(monitor="val_dice_coef",
                       patience=15) # probably needs to be more patient, but kaggle time is limited
 callbacks_list = [checkpoint, early, reduceLROnPlat]
 
+
+
 def fit():
     seg_model.compile(optimizer=Adam(1e-3, decay=1e-6), loss=dice_p_bce, metrics=[dice_coef, 'binary_accuracy'])
     
@@ -191,6 +182,7 @@ def fit():
                                 workers=1 # the generator is not very thread safe
                                            )]
     return loss_history
+  
 
 while True:
     loss_history = fit()

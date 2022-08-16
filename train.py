@@ -22,6 +22,11 @@ train = os.listdir(TRAIN_DIR)
 test = os.listdir(TEST_DIR)
 
 masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
+not_empty = pd.notna(masks.EncodedPixels)
+print(not_empty.sum(), 'masks in', masks[not_empty].ImageId.nunique(), 'images')
+print((~not_empty).sum(), 'empty images in', masks.ImageId.nunique(), 'total images')
+masks.head()
+
 masks['ships'] = masks['EncodedPixels'].map(lambda c_row: 1 if isinstance(c_row, str) else 0)
 unique_img_ids = masks.groupby('ImageId').agg({'ships': 'sum'}).reset_index()
 unique_img_ids['has_ship'] = unique_img_ids['ships'].map(lambda x: 1.0 if x>0 else 0.0)
@@ -39,7 +44,6 @@ train_df = pd.merge(masks, train_ids)
 valid_df = pd.merge(masks, valid_ids)
 print(train_df.shape[0], 'training masks')
 print(valid_df.shape[0], 'validation masks')
-
 
                 
 train_gen = make_image_gen(train_df)
@@ -70,12 +74,10 @@ label_gen = ImageDataGenerator(**dg_args)
   
 cur_gen = create_aug_gen(train_gen)
 t_x, t_y = next(cur_gen)
-print('x', t_x.shape, t_x.dtype, t_x.min(), t_x.max())
-print('y', t_y.shape, t_y.dtype, t_y.min(), t_y.max())
 
 import gc; gc.enable() 
-
 gc.collect()
+
 
 def upsample_conv(filters, kernel_size, strides, padding):
     return layers.Conv2DTranspose(filters, kernel_size, strides=strides, padding=padding)

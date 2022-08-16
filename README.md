@@ -99,7 +99,7 @@ from losses import dice_p_bce, dice_coef
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
 ```
 
-Code above should show no problems, if it shows step back to the guide.
+   Code above should show no problems, if it shows step back to the guide.
 
 2. Now, let's check pathes:
 ```sh
@@ -121,11 +121,13 @@ Train files: 192556. ---> ['00003e153.jpg', '0001124c7.jpg', '000155de5.jpg']
 Test files :  15606. ---> ['00002bd58.jpg', '00015efb6.jpg', '00023d5fc.jpg']
 ```
 
-  So at this moment we are ready to deal with dataset.
+     So at this moment we are ready to deal with dataset.
 
-3. train_ship_segmentations_v2.csv contains id and encoded pixels, some of them have no encoded pixels, it's mean that there is no ships on the picture. I will call this type of images 'empty'. Also on the same picture can be more than one ship, so we will use a masks as one image from utils.py.
+3. train_ship_segmentations_v2.csv contains id and encoded pixels, some of them have no encoded pixels, it's mean that there is no ships on the picture.
 
-First let's create a database via pandas:
+     I will call this type of images 'empty'. Also on the same picture can be more than one ship, so we will use a masks as one image from utils.py.
+
+     First let's create a database via pandas:
 ```sh
 masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
 not_empty = pd.notna(masks.EncodedPixels)
@@ -135,8 +137,17 @@ masks.head()
 ```
  ![alt text](images/eda/main_database.PNG)
 
+   150000 empty images in 192556 total images. Not really balanced dataset.
 
+4. By reason of not balanced dataset, first of all, we need to create a new database with amount of ships for each picture and binary counter (column has_ship).
+![alt text](images/eda/processed_database.PNG)
 
+ let's also visualize to see if it's really unbalanced:
+ ```sh
+ unique_img_ids['ships'].hist(bins=unique_img_ids['ships'].max())
+ print('Max of ships : ',unique_img_ids['ships'].max())
+ print('Avg of ships : ',unique_img_ids['ships'].mean())
+```
 
 
 

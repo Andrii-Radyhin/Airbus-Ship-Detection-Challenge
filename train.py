@@ -14,6 +14,7 @@ from generators import make_image_gen, create_aug_gen
 from losses import dice_p_bce, dice_coef
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
 
+#1.1 Model Parameters
 BASE_DIR = 'airbus-ship-detection'
 TRAIN_DIR = BASE_DIR + '/train_v2/'
 TEST_DIR = BASE_DIR + '/test_v2/'
@@ -21,6 +22,7 @@ TEST_DIR = BASE_DIR + '/test_v2/'
 train = os.listdir(TRAIN_DIR)
 test = os.listdir(TEST_DIR)
 
+#1.5 Data Preparation
 masks = pd.read_csv(os.path.join(BASE_DIR, 'train_ship_segmentations_v2.csv'))
 not_empty = pd.notna(masks.EncodedPixels)
 print(not_empty.sum(), 'masks in', masks[not_empty].ImageId.nunique(), 'images')
@@ -32,7 +34,7 @@ unique_img_ids = masks.groupby('ImageId').agg({'ships': 'sum'}).reset_index()
 unique_img_ids['has_ship'] = unique_img_ids['ships'].map(lambda x: 1.0 if x>0 else 0.0)
 masks.drop(['ships'], axis=1, inplace=True)
 
-
+#2.1 Undersample Empty Images
 SAMPLES_PER_GROUP = 4000
 balanced_train_df = unique_img_ids.groupby('ships').apply(lambda x: x.sample(SAMPLES_PER_GROUP) if len(x) > SAMPLES_PER_GROUP else x)
 

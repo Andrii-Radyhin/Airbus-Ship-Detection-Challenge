@@ -135,13 +135,13 @@ print(not_empty.sum(), 'masks in', masks[not_empty].ImageId.nunique(), 'images')
 print((~not_empty).sum(), 'empty images in', masks.ImageId.nunique(), 'total images')
 masks.head()
 ```
- ![alt text](images/eda/main_database.PNG)
+ ![alt text](images/main_database.PNG)
 
    150000 empty images in 192556 total images. Not really balanced dataset.
 
 4. By reason of not balanced dataset, first of all, we need to create a new database with amount of ships for each picture and binary counter (column has_ship).
  
-![alt text](images/eda/processed_database.PNG)
+![alt text](images/processed_database.PNG)
 
  let's also visualize to see if it's really unbalanced:
  ```sh
@@ -149,7 +149,7 @@ masks.head()
  print('Max of ships : ',unique_img_ids['ships'].max())
  print('Avg of ships : ',unique_img_ids['ships'].mean())
 ```
- ![alt text](images/eda/visualization_unbalanced.PNG)
+ ![alt text](images/visualization_unbalanced.PNG)
  
  5. To deal with, we will extract 4000 or less samples per each class (0-15 ships).
  ```sh
@@ -158,7 +158,7 @@ masks.head()
  balanced_train_df['ships'].hist(bins=balanced_train_df['ships'].max()+1)
  print(balanced_train_df.shape[0], 'masks')
  ```
-![alt text](images/eda/balanced_data.PNG)
+![alt text](images/balanced_data.PNG)
 
 6) At this moment we are ready to split our data for validation and train. You can check next steps in train.ipynb, there is no more EDA there.
 

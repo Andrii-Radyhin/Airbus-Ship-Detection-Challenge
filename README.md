@@ -78,7 +78,8 @@ Moreover, weights and for the trained model are provided. **I will use notebooks
 
 Or you can also use requerements.txt.
 
-### EDA
+### EDA 
+EDA is also done in train.ipynb. This is EDA + how to start with this project.
 
 1. Imports:
 ```sh

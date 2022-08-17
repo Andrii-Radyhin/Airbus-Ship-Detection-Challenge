@@ -1,14 +1,9 @@
 import config
 import numpy as np
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 from skimage.io import imread
 from skimage.morphology import binary_opening, disk, label
-from PIL import Image
-from utils import multi_rle_encode, rle_encode, rle_decode, masks_as_image, masks_as_color, showImage
-from sklearn.model_selection import train_test_split
-from generators import make_image_gen, create_aug_gen
 
 
 def multi_rle_encode(img, **kwargs):

@@ -1,5 +1,5 @@
 PIL == 9.2.0
-cv2 == 4.6.0
+opencv-python == 4.6.0
 keras == 2.6.0
 matplotlib == 3.5.3
 numpy == 1.22.4

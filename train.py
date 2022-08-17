@@ -6,18 +6,20 @@ import matplotlib.pyplot as plt
 from skimage.io import imread
 from skimage.morphology import binary_opening, disk, label
 from PIL import Image
-from utils import utils, losses
+from utils import utils, losses, generators
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras import models, layers
-from generators import make_image_gen, create_aug_gen
-from losses import dice_p_bce, dice_coef
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.optimizers import Adam
+from keras.losses import binary_crossentropy
+import keras.backend as K
 
 #1.1 Model Parameters
-BASE_DIR = 'airbus-ship-detection'
-TRAIN_DIR = BASE_DIR + '/train_v2/'
-TEST_DIR = BASE_DIR + '/test_v2/'
+#BASE_DIR = 'airbus-ship-detection'
+BASE_DIR = ''
+TRAIN_DIR = BASE_DIR + 'train_v2/'
+TEST_DIR = BASE_DIR + 'test_v2/'
 
 train = os.listdir(TRAIN_DIR)
 test = os.listdir(TEST_DIR)
@@ -48,10 +50,12 @@ print(train_df.shape[0], 'training masks')
 print(valid_df.shape[0], 'validation masks')
 
                 
-train_gen = make_image_gen(train_df)
+train_gen = generators.make_image_gen(train_df)
 train_x, train_y = next(train_gen)
-valid_x, valid_y = next(make_image_gen(valid_df, VALID_IMG_COUNT))
+valid_x, valid_y = next(generators.make_image_gen(valid_df, VALID_IMG_COUNT))
 
+
+#2.3 Data Augmentation
 dg_args = dict(featurewise_center = False, 
                   samplewise_center = False,
                   rotation_range = 45, 
@@ -74,7 +78,7 @@ if AUGMENT_BRIGHTNESS:
 label_gen = ImageDataGenerator(**dg_args)
  
   
-cur_gen = create_aug_gen(train_gen)
+cur_gen = generators.create_aug_gen(train_gen)
 t_x, t_y = next(cur_gen)
 
 import gc; gc.enable() 
@@ -173,10 +177,10 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 #3-4. Training
 def fit():
-    seg_model.compile(optimizer=Adam(1e-3, decay=1e-6), loss=dice_p_bce, metrics=[dice_coef, 'binary_accuracy'])
+    seg_model.compile(optimizer=Adam(1e-3, decay=1e-6), loss=losses.dice_p_bce, metrics=[losses.dice_coef, 'binary_accuracy'])
     
     step_count = min(MAX_TRAIN_STEPS, train_df.shape[0]//BATCH_SIZE)
-    aug_gen = create_aug_gen(make_image_gen(train_df))
+    aug_gen = generators.create_aug_gen(generators.make_image_gen(train_df))
     loss_history = [seg_model.fit(aug_gen,
                                  steps_per_epoch=step_count,
                                  epochs=MAX_TRAIN_EPOCHS,

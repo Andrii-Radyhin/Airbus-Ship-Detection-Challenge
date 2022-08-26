@@ -9,7 +9,7 @@ Also notebook is better to understand, cause it's sectioned and named.
 ## Guide & EDA
 ### Guide
 
-1. Important to notice that we have dataset in run-length encoding format, utils/utils.py contains decoder which were based on 
+1. Important to notice that we have dataset in run-length encoding format, utils/utils.py contains decoder which based on 
  **Link to Kaggle Notebook:** [tap here](https://www.kaggle.com/paulorzp/run-length-encode-and-decode).
  
    a. We need to create a base directory (in my case it's named 'airbus-ship-detection'). Then put there two subfolders 'train_v2' and 'test_v2'.

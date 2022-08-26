@@ -84,7 +84,7 @@ EDA is also done in train.ipynb. This is EDA + how to start with this project.
 
 1. Imports:
 ```sh
-import config
+from config import *
 import numpy as np
 import pandas as pd
 import os
@@ -92,13 +92,14 @@ import matplotlib.pyplot as plt
 from skimage.io import imread
 from skimage.morphology import binary_opening, disk, label
 from PIL import Image
-from utils import multi_rle_encode, rle_encode, rle_decode, masks_as_image, masks_as_color, showImage
+from utils import utils, losses, generators
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras import models, layers
-from generators import make_image_gen, create_aug_gen
-from losses import dice_p_bce, dice_coef
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.optimizers import Adam
+from keras.losses import binary_crossentropy
+import keras.backend as K
 ```
 
    Code above should show no problems, if it shows step back to the guide.

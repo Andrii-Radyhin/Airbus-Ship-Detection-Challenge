@@ -175,7 +175,7 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 #3-4. Training
 def fit():
-    seg_model.compile(optimizer=Adam(1e-3, decay=1e-6), loss=losses.dice_p_bce, metrics=[losses.dice_coef, 'binary_accuracy'])
+    seg_model.compile(optimizer=Adam(1e-3, decay=1e-6), loss=losses.FocalLoss, metrics=[losses.dice_coef, 'binary_accuracy'])
     
     step_count = min(MAX_TRAIN_STEPS, train_df.shape[0]//BATCH_SIZE)
     aug_gen = generators.create_aug_gen(generators.make_image_gen(train_df))

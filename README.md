@@ -169,7 +169,7 @@ masks.head()
 ## Architecture:
 
  - Architecture: UNet
- - Loss function: DiceBCELoss, IoU
+ - Loss function: FocalLoss
  - Optimizer: Adam (lr=1e-3, decay=1e-6)
  - learning scheduler: ReduceLROnPlateau(factor=0.5, patience=3)
  

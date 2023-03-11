@@ -1,6 +1,9 @@
 import keras.backend as K
 from keras.losses import binary_crossentropy
 
+ALPHA = 0.8
+GAMMA = 2
+
 ## intersection over union
 def IoU(y_true, y_pred, eps=1e-6):
     intersection = K.sum(y_true * y_pred, axis=[1,2,3])
@@ -44,3 +47,13 @@ def dice_coef(y_true, y_pred, smooth=1):
     intersection = K.sum(y_true * y_pred, axis=[1,2,3])
     union = K.sum(y_true, axis=[1,2,3]) + K.sum(y_pred, axis=[1,2,3])
     return K.mean( (2. * intersection + smooth) / (union + smooth), axis=0)
+
+def FocalLoss(targets, inputs, alpha=ALPHA, gamma=GAMMA):
+    inputs = K.flatten(inputs)
+    targets = K.flatten(targets)
+
+    BCE = K.binary_crossentropy(targets, inputs)
+    BCE_EXP = K.exp(-BCE)
+    focal_loss = K.mean(alpha * K.pow((1 - BCE_EXP), gamma) * BCE)
+
+    return focal_loss
